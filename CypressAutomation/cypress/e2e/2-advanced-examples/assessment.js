@@ -29,4 +29,15 @@ describe("Komi.io assessment", function () {
       .contains("Pre-Save Music")
       .should("be.inViewport");
   });
+
+  it("Validate the More button functionality", function () {
+    cy.xpath("//span[text()='More']").then(($span) => {
+      cy.contains("More").click();
+      cy.get(".ant-modal-content").should("be.inViewport");
+      cy.xpath("//button[@aria-label='spotify-play-button']")
+        .contains("Play")
+        .click();
+      //cy.url().should("include", "open.spotify.com");
+    });
+  });
 });
