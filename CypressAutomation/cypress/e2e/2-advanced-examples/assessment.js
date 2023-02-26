@@ -56,4 +56,28 @@ describe("Komi.io assessment", function () {
       "The form was submitted successfully. Thank you!"
     );
   });
+
+  it("validates the thumbnails are loaded", function () {
+    cy.wait(1000);
+    //cy.scrollTo("bottom");
+    cy.get(".btn-swiper__wrapper").find("button:visible").click();
+    cy.scrollTo("bottom");
+    cy.wait(1000);
+    cy.get("div.image-skeleton").each(($li, index, $lis) => {
+      cy.wrap($li)
+        .scrollIntoView()
+        .should("be.visible")
+        .and(($img) => {
+          // "naturalWidth" and "naturalHeight" are set when the image loads
+          expect($img[0].naturalWidth).to.be.greaterThan(0);
+        });
+    });
+  });
+
+  it("validate the youtube video player", function () {
+    cy.get(".youtube-player__overlay").find("button").click();
+    cy.get("//div[@aria-label='YouTube Video Player']")
+      .should("have.prop", "paused", false)
+      .and("have.prop", "ended", false);
+  });
 });
