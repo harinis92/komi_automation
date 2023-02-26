@@ -40,4 +40,20 @@ describe("Komi.io assessment", function () {
       //cy.url().should("include", "open.spotify.com");
     });
   });
+
+  it("Validate the subscription form", function () {
+    cy.xpath("//div[text()='Sign up for my newsletter']")
+      .scrollIntoView()
+      .then(($div) => {
+        cy.xpath("//div[text()='Sign up for my newsletter']").click();
+        cy.get("form").should("be.visible");
+      });
+    cy.get("#INPUT").type("test");
+    cy.get("#EMAIL_ADDRESS").type("test@gmail.com");
+    cy.get(".ant-form-item-control-input-content > .ant-btn").click();
+    cy.get(".ant-message").should(
+      "have.text",
+      "The form was submitted successfully. Thank you!"
+    );
+  });
 });
